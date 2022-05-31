@@ -1,0 +1,92 @@
+swagger: "2.0"
+info:
+  description: This is documentation for the Points API hosted at the localhost:5000/api/Points endpoint
+  version: "1.0"
+  title: Points API documentation
+consumes:
+  - application/json
+produces:
+  - application/json
+basePath: /api
+# Paths supported by server.py
+paths:
+  /Points:
+    post:
+      operationId: Points.get_transaction
+      tags:
+        - Points
+      summary: Adds a new transaction to the points balance
+      description: Records the transaction given in the request body and updates the points balance appropriately
+      parameters:
+        - name: transaction
+          in: body
+          description: Transaction to add
+          required: True
+          schema:
+            type: object
+            properties:
+              Payer:
+                type: string
+                description: Name of the payer associated with the transaction
+              Points:
+                type: integer
+                description: Number of points associated with the transaction
+              Timestamp:
+                type: string
+                description: Time of the transaction as a string formatted like "YYYY-MM-DDTHH-MM-SSZ"
+      responses:
+        201:
+          description: Successfully added transaction
+        400:
+          description: Bad request parameters
+        403:
+          description: Not enough points
+        500:
+          description: Oops something went wrong
+
+    put:
+      operationId: Points.get_points
+      tags:
+        - Points
+      summary: Spends the given amount of points
+      description: Removes the given amount of points starting with the oldest first
+      parameters:
+        - name: amount
+          in: body
+          description: Points to spend
+          required: True
+          schema:
+            type: object
+            properties:
+              points:
+                type: integer
+                description: Number of points to spend
+      responses:
+        200:
+          description: Points successfully spent
+          schema:
+            type: array
+            items:
+              properties:
+                payer:
+                  type: string
+                points:
+                  type: integer
+        400:
+          description: Bad request parameters
+        403:
+          description: Not enough points in account
+
+    get:
+      operationId: Points.read_balance
+      tags:
+        - Points
+      summary: Returns the current points balance
+      description: Returns a list of payers and the associated points balance
+      responses:
+        200:
+          description: Successfully returned points balance
+          schema:
+            type: object
+        404:
+          description: There is no balance
