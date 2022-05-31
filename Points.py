@@ -35,7 +35,8 @@ def get_points(amount):
     if total is not None:
         return list(spend_points(total))
     else:
-        abort(400, "Please include a positive integer as points value in request as documented at localhost:5000/api/ui")
+        abort(400,
+              "Please include a positive integer as points value in request as documented at localhost:5000/api/ui")
 
 
 def read_balance():
@@ -201,7 +202,7 @@ def check_payer(payer, time):
                             time_key, pay_key = get_keys(n + 1)
                         else:
                             n += 1
-                            time_key, pay_key = get_keys(n+1)
+                            time_key, pay_key = get_keys(n + 1)
                 Payers[payer].pop(key)
                 TimestampPayer.pop(key)
                 Timeline.remove(key)
@@ -231,4 +232,4 @@ def subtract_points(pay_key, points, time_key):
         Payers[pay_key].pop(time_key)
         TimestampPayer.pop(time_key)
         Timeline.remove(time_key)
-    return points, (spent-points)
+    return points, (spent - points)
